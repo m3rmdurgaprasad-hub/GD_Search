@@ -1,18 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>GD Search</title>
+  <meta charset="UTF-8">
+  <title>gdSearch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="logo.png" type="image/png">
   <style>
-    body { font-family: Arial; padding: 2rem; background: #f9f9f9; }
-    #results { margin-top: 2rem; }
-    .result { margin-bottom: 1.5rem; }
-    .result a { font-size: 1.2rem; color: #1a0dab; text-decoration: none; }
-    .result p { color: #4d5156; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    img.logo {
+      width: 150px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+    img.logo:hover {
+      transform: scale(1.05);
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+    input[type="text"] {
+      width: 500px;
+      max-width: 90%;
+      padding: 15px;
+      font-size: 1.2rem;
+      border: 1px solid #ccc;
+      border-radius: 30px;
+      outline: none;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 25px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 20px;
+      background-color: #4285f4;
+      color: white;
+      cursor: pointer;
+    }
+    #results {
+      margin-top: 3rem;
+      width: 60%;
+      max-width: 800px;
+    }
+    .result {
+      background: white;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .result a {
+      font-size: 1.2rem;
+      color: #1a0dab;
+      text-decoration: none;
+    }
+    .result p {
+      color: #4d5156;
+    }
   </style>
 </head>
 <body>
-  <h1>GDSearch</h1>
-  <input type="text" id="query" placeholder="Search the web..." size="50">
+  <img src="logo.png" alt="gdSearch logo" class="logo">
+  <h1>gdSearch</h1>
+  <input type="text" id="query" placeholder="Search the web...">
   <button onclick="search()">Search</button>
 
   <div id="results"></div>
@@ -25,14 +87,18 @@
 
       const resultsDiv = document.getElementById('results');
       resultsDiv.innerHTML = '';
-      data.webPages.value.forEach(item => {
-        resultsDiv.innerHTML += `
-          <div class="result">
-            <a href="${item.url}" target="_blank">${item.name}</a>
-            <p>${item.snippet}</p>
-          </div>
-        `;
-      });
+      if (data.webPages && data.webPages.value) {
+        data.webPages.value.forEach(item => {
+          resultsDiv.innerHTML += `
+            <div class="result">
+              <a href="${item.url}" target="_blank">${item.name}</a>
+              <p>${item.snippet}</p>
+            </div>
+          `;
+        });
+      } else {
+        resultsDiv.innerHTML = '<p>No results found.</p>';
+      }
     }
   </script>
 </body>
