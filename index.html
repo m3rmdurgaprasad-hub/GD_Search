@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GD Search</title>
+  <style>
+    body { font-family: Arial; padding: 2rem; background: #f9f9f9; }
+    #results { margin-top: 2rem; }
+    .result { margin-bottom: 1.5rem; }
+    .result a { font-size: 1.2rem; color: #1a0dab; text-decoration: none; }
+    .result p { color: #4d5156; }
+  </style>
+</head>
+<body>
+  <h1>GDSearch</h1>
+  <input type="text" id="query" placeholder="Search the web..." size="50">
+  <button onclick="search()">Search</button>
+
+  <div id="results"></div>
+
+  <script>
+    async function search() {
+      const query = document.getElementById('query').value;
+      const res = await fetch(`/search?q=${encodeURIComponent(query)}`);
+      const data = await res.json();
+
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = '';
+      data.webPages.value.forEach(item => {
+        resultsDiv.innerHTML += `
+          <div class="result">
+            <a href="${item.url}" target="_blank">${item.name}</a>
+            <p>${item.snippet}</p>
+          </div>
+        `;
+      });
+    }
+  </script>
+</body>
+</html>
